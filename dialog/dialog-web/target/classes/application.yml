@@ -1,0 +1,33 @@
+server:
+  servlet:
+    context-path: /dialog
+    session:
+      timeout: 600
+
+spring:
+  application:
+    name: dialog-web
+  profiles:
+    active: 'dev'
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+        
+mybatis:
+  type-aliases-package: com.wheatek.appplant.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    
+logging:
+  config: classpath:logback-spring.xml
+      

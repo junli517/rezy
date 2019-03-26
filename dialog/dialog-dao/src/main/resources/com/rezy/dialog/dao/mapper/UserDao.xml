@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rezy.dialog.dao.mapper.UserDao">
+  <resultMap id="BaseResultMap" type="com.rezy.dialog.model.entity.UserEntity">
+    <id column="id"  property="id" />
+    <result column="username"  property="username" />
+    <result column="password"  property="password" />
+    <result column="email"  property="email" />
+    <result column="app_user_id"  property="appUserId" />
+    <result column="app_type"  property="appType" />
+    <result column="user_token"  property="userToken" />
+  </resultMap>
+  
+  <sql id="baseColumns">
+    id, username, password, email, app_user_id, app_type, user_token
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="baseColumns" />
+    from t_user
+    where id = #{id}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="com.rezy.dialog.model.entity.UserEntity">
+    insert into t_user (id, username, password, 
+      email, app_user_id, app_type, 
+      user_token)
+    values (#{id}, #{username}, #{password}, 
+      #{email}, #{appUserId}, #{appType}, 
+      #{userToken})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.rezy.dialog.model.entity.UserEntity">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="appUserId != null">
+        app_user_id,
+      </if>
+      <if test="appType != null">
+        app_type,
+      </if>
+      <if test="userToken != null">
+        user_token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="appUserId != null">
+        #{appUserId},
+      </if>
+      <if test="appType != null">
+        #{appType},
+      </if>
+      <if test="userToken != null">
+        #{userToken},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.rezy.dialog.model.entity.UserEntity">
+    update t_user
+    <set>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="appUserId != null">
+        app_user_id = #{appUserId},
+      </if>
+      <if test="appType != null">
+        app_type = #{appType},
+      </if>
+      <if test="userToken != null">
+        user_token = #{userToken},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.rezy.dialog.model.entity.UserEntity">
+    update t_user
+    set username = #{username},
+      password = #{password},
+      email = #{email},
+      app_user_id = #{appUserId},
+      app_type = #{appType},
+      user_token = #{userToken}
+    where id = #{id}
+  </update>
+  
+</mapper>

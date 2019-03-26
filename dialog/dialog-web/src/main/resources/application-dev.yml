@@ -1,0 +1,63 @@
+server:
+  port: 9010
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/dialog?serverTimezone=UTC&characterEncoding=utf-8&useUnicode=true&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    continue-on-error: true
+    initialization-mode: embedded
+
+#   数据源其他配置
+    initialSize: 40                                                                 #初始化连接数量
+    minIdle: 10                                                                     #最小空闲数量
+    maxActive: 2000                                                                 #最大并发数量
+    maxWait: 120000                                                                 #配置获取连接等待超时的时间,单位：毫秒
+    removeAbandoned: true                                                           #超过时间限制是否回收
+    removeAbandonedTimeout: 10000                                                   #上述回收超时时间 单位：秒  
+    timeBetweenEvictionRunsMillis: 60000                                            #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒  
+    minEvictableIdleTimeMillis: 300000                                              #配置一个连接在池中最小生存的时间，单位是毫秒   
+    validationQuery: SELECT 'x'                                                     #用来检测连接是否有效的sql，要求是一个查询语句 type:sql 
+    testWhileIdle: true                                                             #申请连接的时候检测    
+    testOnBorrow: false                                                             #申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能  
+    testOnReturn: false                                                             #归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能   
+    poolPreparedStatements: true                                                    #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+    maxPoolPreparedStatementPerConnectionSize: 40                                   #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，
+                                                                                    #可以把这个数值配置大一些，比如说100 
+    filters: stat,wall                                                              #监控统计用的filter:stat日志用的filter:log4j防御sql注入的filter:wall
+    useGlobalDataSourceStat: true                                                   #合并多个DruidDataSource的监控数据
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+   
+  #redis配置
+  redis:
+    host: localhost                                                                 # 宿主机IP
+    port: 6379                                                                      # 端口号
+    password: root                                                              # 密码
+    database: 0                                                                     # 数据库设置
+    timeout: 10000                                                                  #连接超时时间(毫秒)
+    jedis:
+      pool:
+        max-active: 8                                                               #最大连接数
+        max-wait: 1                                                                 #最大阻塞等待时间  
+        max-idle: 8                                                                 #最大空闲
+        min-idle: 0                                                                 #最小空闲
+  
+    #邮箱配置     
+  mail:
+    host: smtp.163.com #发送邮件服务器
+    username: root@163.com #163邮箱
+    password: root #客户端授权码
+    from: root@163.com #与上面的username保持一致
+    protocol: smtp #发送邮件协议
+    default-encoding: utf-8
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.port: 465 #端口号
+    properties.mail.display.sendmail: dialog #可以任意
+    properties.mail.display.sendname: dialog #可以任意
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+    
+swagger.enable: true  #swagger是否启动配置

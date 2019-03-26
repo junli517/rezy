@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xml>
+
+<configuration>
+    <!-- 存放日志文件路径 -->
+    <property name="project_name" value="dialog-web" />
+    <property name="log_home" value="/home/logs/dialog-web" />
+    
+    <!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- DEBUG级别 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log_home}/all/${project_name}_all.log</File>
+        <!-- 根据时间来制定滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${log_home}/all/${project_name}_all.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- 多久后自动清除旧的日志文件,单位:月 -->
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                 <!-- 默认值是 10MB,文档最大值 -->
+                <MaxFileSize>200MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+			 <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+    </appender>
+    
+    <!-- ERROR级别 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+            <level>ERROR</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${log_home}/error/${project_name}_error.log</File>
+        <!-- 根据时间来制定滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${log_home}/error/${project_name}_error.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>200MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+         <layout class="ch.qos.logback.classic.PatternLayout">
+			 <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		 </layout>
+    </appender>
+    
+    <logger name="java.sql.Connection">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="java.sql.Statement">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="com.ibatis">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="com.ibatis.common.jdbc.ScriptRunner">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate">
+        <level value="DEBUG" />
+    </logger>
+    
+    <!-- 控制java下面包的打印,没设置等级,将继承上级root的等级 -->
+    <logger name="org.springframework"  level="INFO" />
+    <logger name="com.rezy.dialog.dao" level="DEBUG" />
+    <!-- 当前日志总级别为TRACE、DEBUG、INFO、 WARN、ERROR、ALL和 OF -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE_ERROR" />
+    </root>
+</configuration>
