@@ -7,29 +7,33 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 方法参数锁，依赖RedisLock处理<br>
- * 类名+方法+参数实现灵活的方法分布式锁
- * 
- * @author zhuowei.luo
+ * @ClassName: ParamLock
+ * @Description: 方法参数锁，依赖RedisLock处理.类名+方法+参数实现灵活的方法分布式锁
+ * @Version: V1.0
+ * @Author: jun.li
+ * @Date: 2019年03月27
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Documented
 public @interface ParamLock {
-	
-	/**
-	 * 参数名称 
-	 */
+
+	/**     
+	 * @Description: 参数名称
+	 * @return     
+	 */  
 	String value();
-	
-	/**
-	 * 对象参数 
-	 */
+
+	/**     
+	 * @Description: 对象参数
+	 * @return     
+	 */  
 	boolean objectParam() default false;
-	
-	/**
-	 * 参数为空是否抛空指针异常
-	 */
+
+	/**     
+	 * @Description: 参数为空是否抛空指针异常
+	 * @return     
+	 */  
 	boolean hasNullPointerException() default false;
 
 }

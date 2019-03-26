@@ -7,9 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用户不需要登录可访问.
- * 
- * @author zhuowei.luo
+ * @ClassName: NotLogin
+ * @Description: 免登录注解
+ * @Version: V1.0
+ * @Author: jun.li
+ * @Date: 2019年03月27
  */
 @Documented
 @Target({ ElementType.TYPE, ElementType.METHOD })
